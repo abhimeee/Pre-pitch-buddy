@@ -12,7 +12,7 @@ import {
   ThunderboltOutlined, EyeOutlined, ClockCircleOutlined,
   AimOutlined, PauseCircleOutlined, RobotOutlined,
   LinkOutlined, FundOutlined, LineChartOutlined,
-  TrophyOutlined, StarOutlined, TrendingUpOutlined
+  TrophyOutlined, StarOutlined, RiseOutlined
 } from '@ant-design/icons'
 import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -469,7 +469,7 @@ function App() {
                     )}
                     {intel.scrapedData?.hiring?.length > 0 && (
                       <div className="intel-subsection">
-                        <div className="subsection-label"><TrendingUpOutlined /> Hiring Signals</div>
+                        <div className="subsection-label"><RiseOutlined /> Hiring Signals</div>
                         <div className="subsection-content">
                           <Tag color="green" icon={<CheckCircleOutlined />}>Active Hiring Detected</Tag>
                         </div>
