@@ -10,7 +10,9 @@ import {
   SoundOutlined, FireOutlined, BarChartOutlined, BookOutlined,
   RocketOutlined, GlobalOutlined, FileTextOutlined,
   ThunderboltOutlined, EyeOutlined, ClockCircleOutlined,
-  AimOutlined, PauseCircleOutlined
+  AimOutlined, PauseCircleOutlined, RobotOutlined,
+  LinkOutlined, FundOutlined, LineChartOutlined,
+  TrophyOutlined, StarOutlined, TrendingUpOutlined
 } from '@ant-design/icons'
 import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -25,6 +27,10 @@ interface IntelData {
   prospect: string
   scrapedData: any
   searchResults: any
+  linkedinData: any
+  leadershipData: any
+  financialData: any
+  marketSignals: any
   summary: {
     companyOverview: string
     painPoints: string[]
@@ -101,7 +107,9 @@ function App() {
       { id: '1', icon: <GlobalOutlined />, text: 'Connecting to website', subtext: companyUrl, status: 'active' },
       { id: '2', icon: <FileTextOutlined />, text: 'Extracting company intel', subtext: 'About, team, products', status: 'pending' },
       { id: '3', icon: <SearchOutlined />, text: 'Searching for news & funding', subtext: 'Recent mentions', status: 'pending' },
-      { id: '4', icon: <ThunderboltOutlined />, text: 'Analyzing with AI', subtext: 'Generating pitch strategy', status: 'pending' },
+      { id: '4', icon: <TeamOutlined />, text: 'Analyzing leadership profiles', subtext: 'Decision makers', status: 'pending' },
+      { id: '5', icon: <DollarCircleOutlined />, text: 'Checking financial status', subtext: 'Funding & signals', status: 'pending' },
+      { id: '6', icon: <ThunderboltOutlined />, text: 'Generating pitch strategy', subtext: 'AI analysis', status: 'pending' },
     ])
 
     try {
@@ -205,6 +213,26 @@ function App() {
             item.id === '4' ? { ...item, status: 'active' } : item
           ))
         }, 3800),
+        setTimeout(() => {
+          setLogItems(prev => prev.map(item =>
+            item.id === '4' ? { ...item, status: 'complete' } : item
+          ))
+        }, 4500),
+        setTimeout(() => {
+          setLogItems(prev => prev.map(item =>
+            item.id === '5' ? { ...item, status: 'active' } : item
+          ))
+        }, 4800),
+        setTimeout(() => {
+          setLogItems(prev => prev.map(item =>
+            item.id === '5' ? { ...item, status: 'complete' } : item
+          ))
+        }, 5500),
+        setTimeout(() => {
+          setLogItems(prev => prev.map(item =>
+            item.id === '6' ? { ...item, status: 'active' } : item
+          ))
+        }, 5800),
       ]
 
       return () => timers.forEach(clearTimeout)
@@ -390,6 +418,10 @@ function App() {
             >
               <div className="intel-header">
                 <div className="intel-title-section">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                    <Badge count="LIVE" style={{ backgroundColor: '#10b981' }} />
+                    <Tag color="blue" icon={<RobotOutlined />}>AI Intelligence Brief</Tag>
+                  </div>
                   <Title level={2} style={{ marginBottom: 8 }}>
                     Pitch Intelligence: <span className="gradient-text">{intel.company}</span>
                   </Title>
@@ -408,69 +440,227 @@ function App() {
                 </Button>
               </div>
 
-              <div className="intel-grid">
-                {/* Company Overview */}
-                <div className="intel-card">
-                  <div className="intel-card-header">
-                    <div className="intel-card-icon green">
-                      <DollarCircleOutlined />
+              {/* Enhanced Intelligence Section */}
+              <div className="intel-grid-enhanced">
+                {/* Company Intel Card */}
+                <div className="intel-card-enhanced">
+                  <div className="enhanced-card-header">
+                    <div className="enhanced-card-icon">
+                      <GlobalOutlined />
                     </div>
-                    <span className="intel-card-title">Company Overview</span>
+                    <span className="enhanced-card-title">Company Intelligence</span>
                   </div>
-                  <div className="intel-card-body">
-                    {intel.summary.companyOverview}
-                  </div>
-                </div>
-
-                {/* Pain Points */}
-                <div className="intel-card">
-                  <div className="intel-card-header">
-                    <div className="intel-card-icon orange">
-                      <WarningOutlined />
-                    </div>
-                    <span className="intel-card-title">Pain Points</span>
-                  </div>
-                  <div>
-                    {intel.summary.painPoints.map((point, i) => (
-                      <Tag key={i} className="tag-pain" style={{ marginBottom: 8 }}>
-                        {point}
-                      </Tag>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Talking Points */}
-                <div className="intel-card">
-                  <div className="intel-card-header">
-                    <div className="intel-card-icon indigo">
-                      <AimOutlined />
-                    </div>
-                    <span className="intel-card-title">Talking Points</span>
-                  </div>
-                  <div>
-                    {intel.summary.talkingPoints.map((point, i) => (
-                      <Tag key={i} className="tag-talk" style={{ marginBottom: 8 }}>
-                        {point}
-                      </Tag>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Discovery Questions */}
-                <div className="intel-card">
-                  <div className="intel-card-header">
-                    <div className="intel-card-icon purple">
-                      <BookOutlined />
-                    </div>
-                    <span className="intel-card-title">Discovery Questions</span>
-                  </div>
-                  <div>
-                    {intel.summary.discoveryQuestions.map((q, i) => (
-                      <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 10 }}>
-                        <QuestionCircleOutlined style={{ color: '#8b5cf6', marginTop: 3, flexShrink: 0 }} />
-                        <Text style={{ color: '#475569', fontSize: 14 }}>{q}</Text>
+                  <div className="enhanced-card-body">
+                    {intel.scrapedData?.about && (
+                      <div className="intel-subsection">
+                        <div className="subsection-label">About</div>
+                        <div className="subsection-content">{intel.scrapedData.about.slice(0, 200)}...</div>
                       </div>
-                    ))}
+                    )}
+                    {intel.scrapedData?.products?.length > 0 && (
+                      <div className="intel-subsection">
+                        <div className="subsection-label"><RocketOutlined /> Products/Services</div>
+                        <div className="subsection-content">
+                          {intel.scrapedData.products.slice(0, 3).map((p: any, i: number) => (
+                            <Tag key={i} className="tag-product">{p.url?.split('/').pop() || 'Service'}</Tag>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {intel.scrapedData?.hiring?.length > 0 && (
+                      <div className="intel-subsection">
+                        <div className="subsection-label"><TrendingUpOutlined /> Hiring Signals</div>
+                        <div className="subsection-content">
+                          <Tag color="green" icon={<CheckCircleOutlined />}>Active Hiring Detected</Tag>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Leadership Intel */}
+                <div className="intel-card-enhanced">
+                  <div className="enhanced-card-header">
+                    <div className="enhanced-card-icon">
+                      <TeamOutlined />
+                    </div>
+                    <span className="enhanced-card-title">Leadership & Decision Makers</span>
+                  </div>
+                  <div className="enhanced-card-body">
+                    {intel.leadershipData ? (
+                      <div className="intel-subsection">
+                        <div className="subsection-content">{intel.leadershipData}</div>
+                      </div>
+                    ) : (
+                      <div className="intel-subsection">
+                        <div className="subsection-label">Target Prospect</div>
+                        <div className="prospect-highlight">
+                          <Avatar size="large" style={{ backgroundColor: '#6366f1' }}>
+                            {prospectName?.charAt(0) || 'P'}
+                          </Avatar>
+                          <div style={{ marginLeft: 12 }}>
+                            <div style={{ fontWeight: 600, color: '#1e293b' }}>{prospectName || 'Unknown Prospect'}</div>
+                            <div style={{ fontSize: 13, color: '#64748b' }}>Key decision maker for this pitch</div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    <div className="intel-subsection">
+                      <div className="subsection-label"><LinkOutlined /> Personal Connection</div>
+                      <div className="subsection-content" style={{ color: '#475569', fontStyle: 'italic' }}>
+                        {intel.summary.personalConnection || 'Research the prospect before the call'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Financial Status */}
+                <div className="intel-card-enhanced">
+                  <div className="enhanced-card-header">
+                    <div className="enhanced-card-icon">
+                      <FundOutlined />
+                    </div>
+                    <span className="enhanced-card-title">Financial Status</span>
+                  </div>
+                  <div className="enhanced-card-body">
+                    {intel.financialData ? (
+                      <div className="intel-subsection">
+                        <div className="subsection-content">{intel.financialData}</div>
+                      </div>
+                    ) : intel.scrapedData?.funding ? (
+                      <div className="intel-subsection">
+                        <div className="subsection-label">Funding Information</div>
+                        <div className="subsection-content">{intel.scrapedData.funding.slice(0, 300)}...</div>
+                      </div>
+                    ) : (
+                      <div className="intel-subsection">
+                        <div className="subsection-content" style={{ color: '#94a3b8' }}>
+                          Financial data available with premium research sources
+                        </div>
+                      </div>
+                    )}
+                    {intel.summary.greenFlags?.length > 0 && (
+                      <div className="intel-subsection">
+                        <div className="subsection-label"><StarOutlined /> Positive Signals</div>
+                        {intel.summary.greenFlags.slice(0, 2).map((flag: string, i: number) => (
+                          <Tag key={i} color="green" icon={<CheckCircleOutlined />} style={{ marginBottom: 6 }}>
+                            {flag}
+                          </Tag>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Market Signals */}
+                <div className="intel-card-enhanced">
+                  <div className="enhanced-card-header">
+                    <div className="enhanced-card-icon">
+                      <LineChartOutlined />
+                    </div>
+                    <span className="enhanced-card-title">Market Signals</span>
+                  </div>
+                  <div className="enhanced-card-body">
+                    {intel.marketSignals ? (
+                      <div className="intel-subsection">
+                        <div className="subsection-content">{intel.marketSignals}</div>
+                      </div>
+                    ) : intel.searchResults?.length > 0 ? (
+                      <>
+                        <div className="intel-subsection">
+                          <div className="subsection-label"><TrophyOutlined /> Recent News</div>
+                          {intel.searchResults.slice(0, 3).map((result: any, i: number) => (
+                            <div key={i} style={{ marginBottom: 8, paddingBottom: 8, borderBottom: '1px solid #f1f5f9' }}>
+                              <div style={{ fontSize: 13, fontWeight: 500, color: '#334155', marginBottom: 4 }}>
+                                {result.title || 'News Item'}
+                              </div>
+                              <div style={{ fontSize: 12, color: '#94a3b8' }}>{result.url}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="intel-subsection">
+                        <div className="subsection-content" style={{ color: '#94a3b8' }}>
+                          Market signals will appear here after news search
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Pitch Strategy Section */}
+              <div className="pitch-strategy-section">
+                <div className="section-header">
+                  <ThunderboltOutlined />
+                  <span>Pitch Strategy Brief</span>
+                </div>
+
+                <div className="intel-grid">
+                  {/* Company Overview */}
+                  <div className="intel-card">
+                    <div className="intel-card-header">
+                      <div className="intel-card-icon green">
+                        <DollarCircleOutlined />
+                      </div>
+                      <span className="intel-card-title">Company Overview</span>
+                    </div>
+                    <div className="intel-card-body">
+                      {intel.summary.companyOverview}
+                    </div>
+                  </div>
+
+                  {/* Pain Points */}
+                  <div className="intel-card">
+                    <div className="intel-card-header">
+                      <div className="intel-card-icon orange">
+                        <WarningOutlined />
+                      </div>
+                      <span className="intel-card-title">Pain Points</span>
+                    </div>
+                    <div>
+                      {intel.summary.painPoints.map((point, i) => (
+                        <Tag key={i} className="tag-pain" style={{ marginBottom: 8 }}>
+                          {point}
+                        </Tag>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Talking Points */}
+                  <div className="intel-card">
+                    <div className="intel-card-header">
+                      <div className="intel-card-icon indigo">
+                        <AimOutlined />
+                      </div>
+                      <span className="intel-card-title">Talking Points</span>
+                    </div>
+                    <div>
+                      {intel.summary.talkingPoints.map((point, i) => (
+                        <Tag key={i} className="tag-talk" style={{ marginBottom: 8 }}>
+                          {point}
+                        </Tag>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Discovery Questions */}
+                  <div className="intel-card">
+                    <div className="intel-card-header">
+                      <div className="intel-card-icon purple">
+                        <BookOutlined />
+                      </div>
+                      <span className="intel-card-title">Discovery Questions</span>
+                    </div>
+                    <div>
+                      {intel.summary.discoveryQuestions.map((q, i) => (
+                        <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 10 }}>
+                          <QuestionCircleOutlined style={{ color: '#8b5cf6', marginTop: 3, flexShrink: 0 }} />
+                          <Text style={{ color: '#475569', fontSize: 14 }}>{q}</Text>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -232,3 +232,68 @@ body {
 .log-status.active { background: #6366f1; animation: pulse-soft 1s infinite; }
 .log-status.complete { background: #10b981; }
 .log-status.error { background: #ef4444; }
+
+/* Enhanced Intel Card Animations */
+@keyframes card-entry {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.intel-card-enhanced {
+  animation: card-entry 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intel-card-enhanced:nth-child(1) { animation-delay: 0.05s; }
+.intel-card-enhanced:nth-child(2) { animation-delay: 0.1s; }
+.intel-card-enhanced:nth-child(3) { animation-delay: 0.15s; }
+.intel-card-enhanced:nth-child(4) { animation-delay: 0.2s; }
+
+/* Section header animation */
+.section-header {
+  animation: slide-up-fade 0.5s ease-out;
+}
+
+/* Intel grid items stagger */
+.intel-grid .intel-card {
+  animation: card-entry 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.intel-grid .intel-card:nth-child(1) { animation-delay: 0.25s; }
+.intel-grid .intel-card:nth-child(2) { animation-delay: 0.3s; }
+.intel-grid .intel-card:nth-child(3) { animation-delay: 0.35s; }
+.intel-grid .intel-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Hover glow effect */
+.intel-card-enhanced::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), transparent, rgba(139, 107, 255, 0.3));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.intel-card-enhanced:hover::after {
+  opacity: 1;
+}
+
+/* Badge pulse for LIVE indicator */
+@keyframes badge-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.ant-badge-count {
+  animation: badge-pulse 2s ease-in-out infinite;
+}

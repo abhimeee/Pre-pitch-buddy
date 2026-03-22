@@ -11,8 +11,13 @@ An AI-powered sales pitch preparation tool that researches your prospects and le
 ## 🚀 What It Does
 
 1. **Research**: Enter a company website → AI scrapes and analyzes company intel using Firecrawl
-2. **Intel**: Get a pitch-ready brief with talking points, objections, and discovery questions powered by Anthropic Claude
-3. **Practice**: Voice conversation with an AI that acts as your prospect (ElevenLabs integration ready)
+2. **Intel**: Get a pitch-ready brief with:
+   - Company Intelligence (about, products, hiring signals)
+   - Leadership & Decision Makers info
+   - Financial Status (funding, valuation, investors)
+   - Market Signals (recent news, partnerships, launches)
+   - AI-generated pitch strategy with talking points, objections, discovery questions
+3. **Practice**: Voice conversation with an AI that acts as your prospect (browser Speech API)
 
 ---
 
@@ -103,12 +108,17 @@ Frontend runs on http://localhost:5173
    - Analyzes with Claude to generate pitch strategy
 
 3. **Review Intelligence**
-   - Company overview
-   - Pain points
-   - Talking points
-   - Expected objections
-   - Discovery questions
-   - Buying signals (green/red flags)
+   - Company Intelligence (about, team, products, hiring)
+   - Leadership & Decision Makers
+   - Financial Status (funding, investors, valuation)
+   - Market Signals (recent news, partnerships)
+   - Pitch Strategy:
+     - Company overview
+     - Pain points
+     - Talking points
+     - Expected objections
+     - Discovery questions
+     - Buying signals (green/red flags)
 
 4. **Voice Practice**
    - Click "Start Voice Practice"
@@ -164,8 +174,13 @@ pitch-twin/
 
 ## 🎨 Features
 
+- **Enhanced Intelligence Dashboard** - Agentic white modern UI with:
+  - Company Intelligence (about, products, hiring signals)
+  - Leadership & Decision Makers profiles
+  - Financial Status (funding, valuation, investors)
+  - Market Signals (recent news, partnerships, launches)
 - **Clean, modern UI** - Stripe-inspired white design with smooth animations
-- **Agentic AI feel** - Real-time activity log showing research progress
+- **Agentic AI feel** - Real-time activity log showing 6-step research progress
 - **Voice practice** - Practice your pitch with AI-powered voice responses
 - **Actionable intel** - Claude-generated talking points and objections
 - **Responsive design** - Works on desktop and mobile

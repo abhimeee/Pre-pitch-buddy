@@ -227,6 +227,10 @@ router.post('/full-research', async (req, res) => {
       prospect: prospectName,
       scrapedData: null,
       searchResults: null,
+      linkedinData: null,
+      leadershipData: null,
+      financialData: null,
+      marketSignals: null,
       summary: null
     };
 
@@ -275,10 +279,106 @@ router.post('/full-research', async (req, res) => {
       console.log('Search failed, continuing:', e.message);
     }
 
-    // Step 3: Generate summary
+    // Step 3: Search for leadership info
+    try {
+      const leadershipSearch = await axios.post(
+        `${FIRECRAWL_BASE_URL}/search`,
+        {
+          query: `${companyName || 'company'} CEO founder leadership team executives`,
+          limit: 3,
+          scrapeOptions: {
+            formats: ['markdown']
+          }
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${process.env.FIRECRAWL_API_KEY}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const leadershipResults = leadershipSearch.data.results || [];
+      if (leadershipResults.length > 0) {
+        results.leadershipData = leadershipResults.slice(0, 2).map(r => ({
+          title: r.title,
+          url: r.url,
+          snippet: r.description
+        }));
+      }
+    } catch (e) {
+      console.log('Leadership search failed, continuing:', e.message);
+    }
+
+    // Step 4: Search for financial data
+    try {
+      const financialSearch = await axios.post(
+        `${FIRECRAWL_BASE_URL}/search`,
+        {
+          query: `${companyName || 'company'} revenue funding valuation investors 2025`,
+          limit: 3,
+          scrapeOptions: {
+            formats: ['markdown']
+          }
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${process.env.FIRECRAWL_API_KEY}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const financialResults = financialSearch.data.results || [];
+      if (financialResults.length > 0) {
+        results.financialData = financialResults.slice(0, 2).map(r => ({
+          title: r.title,
+          url: r.url,
+          snippet: r.description
+        }));
+      }
+    } catch (e) {
+      console.log('Financial search failed, continuing:', e.message);
+    }
+
+    // Step 5: Gather market signals
+    try {
+      const marketSearch = await axios.post(
+        `${FIRECRAWL_BASE_URL}/search`,
+        {
+          query: `${companyName || 'company'} acquisition partnership product launch hiring 2025 2026`,
+          limit: 3,
+          scrapeOptions: {
+            formats: ['markdown']
+          }
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${process.env.FIRECRAWL_API_KEY}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const marketResults = marketSearch.data.results || [];
+      if (marketResults.length > 0) {
+        results.marketSignals = {
+          signals: marketResults.slice(0, 3).map(r => ({
+            type: 'market',
+            title: r.title,
+            url: r.url,
+            description: r.description
+          }))
+        };
+      }
+    } catch (e) {
+      console.log('Market signals search failed, continuing:', e.message);
+    }
+
+    // Step 6: Generate summary with enhanced intel
     const allIntel = {
       website: results.scrapedData,
-      news: results.searchResults
+      news: results.searchResults,
+      leadership: results.leadershipData,
+      financial: results.financialData,
+      marketSignals: results.marketSignals
     };
 
     try {
@@ -305,12 +405,12 @@ SCRAPED INTELLIGENCE:
 ${JSON.stringify(allIntel, null, 2)}
 
 Create a concise, actionable pitch prep brief with:
-1. Company Overview (funding, size, growth signals)
-2. Key Pain Points (what they likely need based on intel)
-3. Talking Points (how your product solves their problems)
-4. Potential Objections (what they might push back on)
+1. Company Overview (funding, size, growth signals - 2-3 sentences)
+2. Key Pain Points (3-5 what they likely need based on intel)
+3. Talking Points (3-5 how your product solves their problems)
+4. Potential Objections (2-3 what they might push back on)
 5. Personal Connection (anything about the prospect specifically)
-6. Questions to Ask (discovery questions based on intel)
+6. Questions to Ask (3-5 discovery questions based on intel)
 
 Format as JSON with these exact keys:
 - companyOverview (string, 2-3 sentences)
